@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">02_Logica</string>
+    <string name="conjunction_and">Conjunction (AND)</string>
+    <string name="submit">Submit</string>
+    <string name="AandB">A ^ B</string>
+    <string name="A">A</string>
+    <string name="B">B</string>
+    <string name="T">T</string>
+    <string name="F">F</string>
 </resources>
