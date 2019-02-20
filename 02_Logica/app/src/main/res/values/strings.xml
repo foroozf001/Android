@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">02_Logica</string>
+    <string name="app_name">Logica</string>
     <string name="conjunction_and">Conjunction (AND)</string>
     <string name="submit">Submit</string>
     <string name="AandB">A ^ B</string>
