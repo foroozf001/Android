@@ -68,9 +68,9 @@ public class MainActivity extends AppCompatActivity implements RecyclerView.OnIt
                     public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
                         //Get the index corresponding to the selected position
                         int position = (viewHolder.getAdapterPosition());
-                        if (swipeDir == 8 && mGeoObjects.get(position).getmGeoInEurope()) { //left
+                        if (swipeDir == 4 && mGeoObjects.get(position).getmGeoInEurope()) { //left
                             Toast.makeText(MainActivity.this, "Je antwoord is juist! " + mGeoObjects.get(position).getmGeoName() +  " ligt in Europa.", Toast.LENGTH_SHORT).show();
-                        } else if (swipeDir == 4 && !mGeoObjects.get(position).getmGeoInEurope()) {
+                        } else if (swipeDir == 8 && !mGeoObjects.get(position).getmGeoInEurope()) {
                             Toast.makeText(MainActivity.this, "Je antwoord is juist! " + mGeoObjects.get(position).getmGeoName() +  " ligt niet in Europa.", Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(MainActivity.this, "Je antwoord is onjuist!", Toast.LENGTH_SHORT).show();
