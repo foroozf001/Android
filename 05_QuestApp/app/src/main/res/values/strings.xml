@@ -6,4 +6,5 @@
     <string name="try_again">Try again!</string>
     <string name="verify_button_text">Click here to see if your answer is correct and get your next clue</string>
     <string name="end_text">You have reached the end and earned the game !!!!</string>
+    <string name="click_next">Click here for the next question</string>
 </resources>
