@@ -1,5 +1,6 @@
 package com.example.a06_studentportal;
 
+import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -56,6 +57,20 @@ public class MainActivity extends AppCompatActivity implements PortalAdapter.Por
 
     @Override
     public void portalOnClick(int i) {
+        Intent intent = new Intent(MainActivity.this, UpdateActivity.class);
+        mModifyPosition = i;
+        intent.putExtra(EXTRA_PORTAL, mPortals.get(i));
+        startActivityForResult(intent, REQUESTCODE);
+    }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == REQUESTCODE) {
+            if(resultCode == RESULT_OK) {
+                PortalObject updatedPortalObject = data.getParcelableExtra(MainActivity.EXTRA_PORTAL);
+                mPortals.set(mModifyPosition, updatedPortalObject);
+                updateUI();
+            }
+        }
     }
 }
