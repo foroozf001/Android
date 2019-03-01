@@ -39,9 +39,12 @@ public class MainActivity extends AppCompatActivity implements PortalAdapter.Por
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                PortalObject newPortal = new PortalObject("https://www.sis.hva.nl", "SIS HVA");
+                PortalObject newPortal = new PortalObject("URL HERE", "NAME HERE");
                 mPortals.add(newPortal);
-                updateUI();
+                Intent intent = new Intent(MainActivity.this, UpdateActivity.class);
+                mModifyPosition = mPortals.size() - 1;
+                intent.putExtra(EXTRA_PORTAL, mPortals.get(mModifyPosition));
+                startActivityForResult(intent, REQUESTCODE);
             }
         });
     }
