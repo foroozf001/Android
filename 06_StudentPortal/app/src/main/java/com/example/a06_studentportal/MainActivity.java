@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements PortalAdapter.Por
 
     @Override
     public void portalOnClick(int i) {
-        Intent intent = new Intent(MainActivity.this, UpdateActivity.class);
+        Intent intent = new Intent(MainActivity.this, WebActivity.class);
         mModifyPosition = i;
         intent.putExtra(EXTRA_PORTAL, mPortals.get(i));
         startActivityForResult(intent, REQUESTCODE);
