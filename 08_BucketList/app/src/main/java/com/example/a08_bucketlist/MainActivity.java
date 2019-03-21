@@ -1,5 +1,6 @@
 package com.example.a08_bucketlist;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -26,6 +27,9 @@ public class MainActivity extends AppCompatActivity implements RecyclerView.OnIt
     private BucketListAdapter bucketListAdapter;
     private List<BucketListItem> bucketList = new ArrayList<>();
     private BucketListRoomDatabase db;
+
+    public static final String EXTRA_BUCKETLIST = "BucketList";
+    public static final int REQUESTCODE = 1234;
 
     private GestureDetector gestureDetector;
     private Executor executor = Executors.newSingleThreadExecutor();
@@ -77,10 +81,8 @@ public class MainActivity extends AppCompatActivity implements RecyclerView.OnIt
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final BucketListItem bucketListItem = new BucketListItem("BLItem1", "BLDescription1");
-                insertBucketListItem(bucketListItem);
-                final BucketListItem bucketListItem2 = new BucketListItem("BLItem2", "BLDescription2");
-                insertBucketListItem(bucketListItem2);
+                Intent intent = new Intent(MainActivity.this, UpdateActivity.class);
+                startActivityForResult(intent, REQUESTCODE);
             }
         });
     }
@@ -134,6 +136,17 @@ public class MainActivity extends AppCompatActivity implements RecyclerView.OnIt
         bucketList.clear();
         bucketList.addAll(bucketListItems);
         bucketListAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == REQUESTCODE) {
+            if(resultCode == RESULT_OK) {
+                BucketListItem newlyCreatedBLItem = data.getParcelableExtra(MainActivity.EXTRA_BUCKETLIST);
+                insertBucketListItem(newlyCreatedBLItem);
+                updateUI(bucketList);
+            }
+        }
     }
 
     @Override

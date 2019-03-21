@@ -3,10 +3,12 @@ package com.example.a08_bucketlist;
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 @Entity(tableName = "bucketlist_table")
 
-public class BucketListItem {
+public class BucketListItem implements Parcelable {
 
     @PrimaryKey(autoGenerate = true)
     private Long id;
@@ -20,6 +22,11 @@ public class BucketListItem {
     public BucketListItem(String title, String description) {
         this.title = title;
         this.description = description;
+    }
+
+    protected BucketListItem(Parcel in) {
+        this.title = in.readString();
+        this.description = in.readString();
     }
 
     public Long getId() { return id; }
@@ -42,4 +49,27 @@ public class BucketListItem {
                 ", description='" + description + '\'' +
                 '}';
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.title);
+        dest.writeString(this.description);
+    }
+
+    public static final Parcelable.Creator<BucketListItem> CREATOR = new Parcelable.Creator<BucketListItem>() {
+        @Override
+        public BucketListItem createFromParcel(Parcel source) {
+            return new BucketListItem(source);
+        }
+
+        @Override
+        public BucketListItem[] newArray(int size) {
+            return new BucketListItem[size];
+        }
+    };
 }
