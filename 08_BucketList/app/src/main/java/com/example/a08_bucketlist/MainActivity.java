@@ -9,6 +9,7 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -60,7 +61,9 @@ public class MainActivity extends AppCompatActivity implements RecyclerView.OnIt
                 super.onLongPress(e);
                 View child = rvBucketList.findChildViewUnder(e.getX(), e.getY());
                 if (child != null) {
+
                     int adapterPosition = rvBucketList.getChildAdapterPosition(child);
+                    //Log.v("MyActivity", bucketList.get(adapterPosition).toString());
                     deleteBucketListItem(bucketList.get(adapterPosition));
                 }
             }
@@ -74,8 +77,10 @@ public class MainActivity extends AppCompatActivity implements RecyclerView.OnIt
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final BucketListItem bucketListItem = new BucketListItem("BLItem", "BLDescription");
+                final BucketListItem bucketListItem = new BucketListItem("BLItem1", "BLDescription1");
                 insertBucketListItem(bucketListItem);
+                final BucketListItem bucketListItem2 = new BucketListItem("BLItem2", "BLDescription2");
+                insertBucketListItem(bucketListItem2);
             }
         });
     }
@@ -114,7 +119,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerView.OnIt
         executor.execute(new Runnable() {
             @Override
             public void run() {
-                final List<BucketListItem> bucketListItems = db.bucketListItemDao().getAllProducts();
+                final List<BucketListItem> bucketListItems = db.bucketListItemDao().getAllBucketListItems();
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -134,7 +139,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerView.OnIt
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_delete, menu);
         return true;
     }
 
@@ -146,8 +151,8 @@ public class MainActivity extends AppCompatActivity implements RecyclerView.OnIt
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if (id == R.id.delete_items) {
+            deleteAllBucketListItems(bucketList);
         }
 
         return super.onOptionsItemSelected(item);

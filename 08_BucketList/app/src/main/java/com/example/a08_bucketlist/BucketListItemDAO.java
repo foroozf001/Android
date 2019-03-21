@@ -19,5 +19,5 @@ public interface BucketListItemDAO {
     void delete(List<BucketListItem> items);
 
     @Query("SELECT * from bucketlist_table")
-    List<BucketListItem> getAllProducts();
+    List<BucketListItem> getAllBucketListItems();
 }
