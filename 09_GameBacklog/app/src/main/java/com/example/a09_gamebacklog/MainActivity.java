@@ -1,5 +1,6 @@
 package com.example.a09_gamebacklog;
 
+import android.content.ClipData;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -10,6 +11,7 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -85,9 +87,29 @@ public class MainActivity extends AppCompatActivity implements RecyclerView.OnIt
                 if (child != null) {
                     int adapterPosition = recyclerView.getChildAdapterPosition(child);
                     deleteGame(games.get(adapterPosition));
+                    Snackbar.make(findViewById(android.R.id.content), "Deleted game", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
                 }
             }
         });
+
+        ItemTouchHelper.SimpleCallback simpleItemTouchCallback =
+                new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+                    @Override
+                    public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder viewHolder1) {
+                        return false;
+                    }
+
+                    @Override
+                    public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
+                        int adapterPosition = viewHolder.getAdapterPosition();
+                        deleteGame(games.get(adapterPosition));
+                        Snackbar.make(findViewById(android.R.id.content), "Deleted game", Snackbar.LENGTH_LONG)
+                                .setAction("Action", null).show();
+                    }
+                };
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
+        itemTouchHelper.attachToRecyclerView(recyclerView);
         recyclerView.addOnItemTouchListener(this);
         getAllGames();
     }
