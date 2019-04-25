@@ -68,10 +68,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initViews() {
-        pd = new ProgressDialog(this);
+        /*pd = new ProgressDialog(this);
         pd.setMessage("Fetching movies...");
         pd.setCancelable(false);
-        pd.show();
+        pd.show();*/
 
         recyclerView = findViewById(R.id.recycler_view);
         movieList = new ArrayList<>();
@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
         try {
             if (BuildConfig.THE_MOVIE_DB_API_TOKEN.isEmpty()) {
                 Toast.makeText(getApplicationContext(), "Please obtain valid API key", Toast.LENGTH_SHORT).show();
-                pd.dismiss();
+                //pd.dismiss();
                 return;
             }
 
@@ -111,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
                     if (swipeContainer.isRefreshing()) {
                         swipeContainer.setRefreshing(false);
                     }
-                    pd.dismiss();
+                    //pd.dismiss();
                 }
 
                 @Override
