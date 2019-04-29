@@ -37,8 +37,10 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
     @Override
     public void onBindViewHolder(final MoviesAdapter.MyViewHolder viewHolder, int i) {
         viewHolder.title.setText(movieList.get(i).getOriginalTitle());
+        String popularity = "#" + Integer.toString(i + 1);
         String vote = Double.toString(movieList.get(i).getVoteAverage());
-        viewHolder.userrating.setText(vote);
+        //viewHolder.userrating.setText("Vote average: " + vote);
+        viewHolder.rank.setText(popularity);
 
         Glide.with(mContext)
                 .load(movieList.get(i).getPosterPath())
@@ -52,13 +54,13 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView title, userrating;
+        public TextView title, rank;
         public ImageView thumbnail;
 
         public MyViewHolder(View view) {
             super(view);
             title = view.findViewById(R.id.title);
-            userrating = view.findViewById(R.id.userrating);
+            rank = view.findViewById(R.id.rank);
             thumbnail = view.findViewById(R.id.thumbnail);
 
             view.setOnClickListener(new View.OnClickListener() {

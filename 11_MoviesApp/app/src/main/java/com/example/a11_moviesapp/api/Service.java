@@ -7,9 +7,15 @@ import retrofit2.http.GET;
 import retrofit2.http.Query;
 
 public interface Service {
-    @GET("movie/popular")
-    Call<MoviesResponse> getPopularMovies(@Query("api_key") String apiKey);
+    @GET("discover/movie")
+    Call<MoviesResponse> getPopularMovies(
+            @Query("year") Integer year,
+            @Query("api_key") String apiKey
+    );
 
     @GET("movie/top_rated")
-    Call<MoviesResponse> getTopRatedMovies(@Query("api_key") String apiKey);
+    Call<MoviesResponse> getTopRatedMovies(
+            @Query("year") Integer year,
+            @Query("api_key") String apiKey
+    );
 }

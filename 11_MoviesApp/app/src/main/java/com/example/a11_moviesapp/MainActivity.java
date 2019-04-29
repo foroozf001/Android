@@ -14,6 +14,9 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.a11_moviesapp.adapter.MoviesAdapter;
@@ -34,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private MoviesAdapter adapter;
     private List<Movie> movieList;
+    private Button btn_submit;
+    private EditText et_year;
     ProgressDialog pd;
     private SwipeRefreshLayout swipeContainer;
     public static final String LOG_TAG = MoviesAdapter.class.getName();
@@ -43,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        initViews();
+        //initViews();
 
         swipeContainer = findViewById(R.id.main_content);
         swipeContainer.setColorSchemeResources(android.R.color.holo_orange_dark);
@@ -52,6 +57,16 @@ public class MainActivity extends AppCompatActivity {
             public void onRefresh() {
                 initViews();
                 Toast.makeText(MainActivity.this, "Movies Refreshed", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        et_year = findViewById(R.id.et_year);
+        btn_submit = findViewById(R.id.btn_submit);
+        btn_submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                initViews();
+                Toast.makeText(MainActivity.this, "Button clicked", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -68,10 +83,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initViews() {
-        /*pd = new ProgressDialog(this);
+        pd = new ProgressDialog(this);
         pd.setMessage("Fetching movies...");
         pd.setCancelable(false);
-        pd.show();*/
+        pd.show();
 
         recyclerView = findViewById(R.id.recycler_view);
         movieList = new ArrayList<>();
@@ -94,14 +109,15 @@ public class MainActivity extends AppCompatActivity {
         try {
             if (BuildConfig.THE_MOVIE_DB_API_TOKEN.isEmpty()) {
                 Toast.makeText(getApplicationContext(), "Please obtain valid API key", Toast.LENGTH_SHORT).show();
-                //pd.dismiss();
+                pd.dismiss();
                 return;
             }
 
+            int year = Integer.parseInt(et_year.getText().toString());
             Client Client = new Client();
             Service apiService =
                     Client.getClient().create(Service.class);
-            Call<MoviesResponse> call = apiService.getPopularMovies(BuildConfig.THE_MOVIE_DB_API_TOKEN);
+            Call<MoviesResponse> call = apiService.getPopularMovies(year, BuildConfig.THE_MOVIE_DB_API_TOKEN);
             call.enqueue(new Callback<MoviesResponse>() {
                 @Override
                 public void onResponse(Call<MoviesResponse> call, Response<MoviesResponse> response) {
@@ -111,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
                     if (swipeContainer.isRefreshing()) {
                         swipeContainer.setRefreshing(false);
                     }
-                    //pd.dismiss();
+                    pd.dismiss();
                 }
 
                 @Override
