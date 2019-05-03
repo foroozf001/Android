@@ -14,7 +14,7 @@ import com.bumptech.glide.Glide;
 
 public class DetailActivity extends AppCompatActivity {
     TextView nameOfMovie, plotSynopsis, userRating, releaseDate;
-    ImageView imageView;
+    ImageView imageView, imagePoster;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -27,6 +27,7 @@ public class DetailActivity extends AppCompatActivity {
         initCollapsingToolbar();
 
         imageView = findViewById(R.id.thumbnail_image_header);
+        imagePoster = findViewById(R.id.movieCover);
         nameOfMovie = findViewById(R.id.title);
         plotSynopsis = findViewById(R.id.plotsynopsis);
         userRating = findViewById(R.id.userrating);
@@ -35,15 +36,21 @@ public class DetailActivity extends AppCompatActivity {
         Intent intentThatStartedThisActivity = getIntent();
         if (intentThatStartedThisActivity.hasExtra("original_title")) {
             String thumbnail = getIntent().getExtras().getString("poster_path");
+            String backdrop = getIntent().getExtras().getString("backdrop_path");
             String movieName = getIntent().getExtras().getString("original_title");
             String synopsis = getIntent().getExtras().getString("overview");
             String rating = getIntent().getExtras().getString("vote_average");
             String dateOfRelease = getIntent().getExtras().getString("release_date");
 
             Glide.with(this)
-                    .load(thumbnail)
+                    .load(backdrop)
                     .placeholder(R.drawable.ic_autorenew_black_24dp)
                     .into(imageView);
+
+            Glide.with(this)
+                    .load(thumbnail)
+                    .placeholder(R.drawable.ic_autorenew_black_24dp)
+                    .into(imagePoster);
 
             nameOfMovie.setText(movieName);
             plotSynopsis.setText(synopsis);

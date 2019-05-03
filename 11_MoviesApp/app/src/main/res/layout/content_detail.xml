@@ -31,11 +31,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/title"
+                android:textAlignment="center"
                 android:layout_marginLeft="@dimen/layout_margin_left"
                 android:padding="@dimen/padding_layout"
                 android:layout_marginTop="@dimen/layout_margin_top"
                 android:textSize="20sp"
                 android:layout_below="@+id/movietitle"/>
+
+            <ImageView
+                android:layout_width="140dp"
+                android:layout_height="@dimen/movie_cover_height"
+                android:id="@+id/movieCover"
+                android:layout_below="@+id/title"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:scaleType="fitXY"
+                android:layout_gravity="center"/>
 
             <TextView
                 android:layout_width="match_parent"

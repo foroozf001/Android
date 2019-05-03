@@ -129,7 +129,7 @@ public class Movie {
     }
 
     public String getBackdropPath() {
-        return backdropPath;
+        return "https://image.tmdb.org/t/p/w500" + this.backdropPath;
     }
 
     public void setBackdropPath(String backdropPath) {
