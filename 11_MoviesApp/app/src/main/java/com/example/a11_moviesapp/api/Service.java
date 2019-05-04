@@ -12,10 +12,4 @@ public interface Service {
             @Query("year") Integer year,
             @Query("api_key") String apiKey
     );
-
-    @GET("movie/top_rated")
-    Call<MoviesResponse> getTopRatedMovies(
-            @Query("year") Integer year,
-            @Query("api_key") String apiKey
-    );
 }

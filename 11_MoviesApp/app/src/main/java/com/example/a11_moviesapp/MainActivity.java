@@ -2,10 +2,13 @@ package com.example.a11_moviesapp;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -24,6 +27,7 @@ import com.example.a11_moviesapp.api.Client;
 import com.example.a11_moviesapp.api.Service;
 import com.example.a11_moviesapp.model.Movie;
 import com.example.a11_moviesapp.model.MoviesResponse;
+import com.example.a11_moviesapp.viewmodel.MainActivityViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     private List<Movie> movieList;
     private Button btn_submit;
     private EditText et_year;
+    private MainActivityViewModel viewModel;
     ProgressDialog pd;
     private SwipeRefreshLayout swipeContainer;
     public static final String LOG_TAG = MoviesAdapter.class.getName();
@@ -48,15 +53,32 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //initViews();
+        initViews();
+        viewModel = ViewModelProviders.of(this).get(MainActivityViewModel.class);
+
+        viewModel.getError().observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(@Nullable String s) {
+                Toast.makeText(MainActivity.this, s, Toast.LENGTH_LONG)
+                        .show();
+            }
+        });
+
+        viewModel.getPopularMovies().observe(this, new Observer<List<Movie>>() {
+            @Override
+            public void onChanged(@Nullable List<Movie> movies) {
+                movieList = movies;
+                updateUI();
+            }
+        });
 
         swipeContainer = findViewById(R.id.main_content);
         swipeContainer.setColorSchemeResources(android.R.color.holo_orange_dark);
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                initViews();
-                Toast.makeText(MainActivity.this, "Movies Refreshed", Toast.LENGTH_SHORT).show();
+                //initViews();
+                //Toast.makeText(MainActivity.this, "Movies Refreshed", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -65,8 +87,8 @@ public class MainActivity extends AppCompatActivity {
         btn_submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                initViews();
-                Toast.makeText(MainActivity.this, "Button clicked", Toast.LENGTH_SHORT).show();
+                int year = Integer.parseInt(et_year.getText().toString());
+                viewModel.getPopularMovies(year, BuildConfig.THE_MOVIE_DB_API_TOKEN);
             }
         });
     }
@@ -83,14 +105,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initViews() {
-        pd = new ProgressDialog(this);
+        /*pd = new ProgressDialog(this);
         pd.setMessage("Fetching movies...");
         pd.setCancelable(false);
-        pd.show();
+        pd.show();*/
 
         recyclerView = findViewById(R.id.recycler_view);
         movieList = new ArrayList<>();
-        adapter = new MoviesAdapter(this, movieList);
 
         if (getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
             recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
@@ -99,22 +120,26 @@ public class MainActivity extends AppCompatActivity {
         }
 
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
-
-        loadJSON();
     }
 
-    private void loadJSON() {
+    private void updateUI() {
+        if (adapter == null) {
+            adapter = new MoviesAdapter(this, movieList);
+            recyclerView.setAdapter(adapter);
+        } else {
+            adapter.swapList(movieList);
+        }
+    }
+    /*private void loadJSON() {
         try {
             if (BuildConfig.THE_MOVIE_DB_API_TOKEN.isEmpty()) {
                 Toast.makeText(getApplicationContext(), "Please obtain valid API key", Toast.LENGTH_SHORT).show();
-                pd.dismiss();
+                //pd.dismiss();
                 return;
             }
 
             int year = Integer.parseInt(et_year.getText().toString());
-            Client Client = new Client();
+            //Client Client = new Client();
             Service apiService =
                     Client.getClient().create(Service.class);
             Call<MoviesResponse> call = apiService.getPopularMovies(year, BuildConfig.THE_MOVIE_DB_API_TOKEN);
@@ -127,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
                     if (swipeContainer.isRefreshing()) {
                         swipeContainer.setRefreshing(false);
                     }
-                    pd.dismiss();
+                    //pd.dismiss();
                 }
 
                 @Override
@@ -140,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
             Log.d("Error", e.getMessage());
             Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();
         }
-    }
+    }*/
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

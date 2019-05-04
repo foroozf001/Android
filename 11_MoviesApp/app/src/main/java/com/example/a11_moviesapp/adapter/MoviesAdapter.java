@@ -53,6 +53,14 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
         return movieList.size();
     }
 
+    public void swapList(List<Movie> newList) {
+        movieList = newList;
+        if (newList != null) {
+            // Force the RecyclerView to refresh
+            this.notifyDataSetChanged();
+        }
+    }
+
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView title, rank;
         public ImageView thumbnail;
