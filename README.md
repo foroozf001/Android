@@ -1,3 +1,3 @@
-# MobileAppDevelopmentHvA
+# Android
 
-HvA MAD
+This repository is collection of some Android applications built in Android Studio.
