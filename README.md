@@ -1,3 +1,3 @@
 # Android
 
-This repository is collection of some Android applications built in Android Studio.
+This repository is a collection of Android applications built in Android Studio for personal use.
