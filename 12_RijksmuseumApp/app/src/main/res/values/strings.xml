@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">Rijksmuseum App</string>
+    <string name="action_settings">Settings</string>
+    <string name="art_details">Art Details</string>
+    <string name="title">Title</string>
+    <string name="long_title">Long title</string>
+    <string name="principal">Principal</string>
+    <string name="description">Description</string>
+    <string name="object_type">Object type</string>
+    <string name="dimensions">Dimensions</string>
+    <string name="height">Height</string>
+    <string name="width">Width</string>
+    <string name="date">Date</string>
+    <string name="medium">Physical medium</string>
+    <string name="pref_sort_order_label">Sort Order</string>
+    <string name="pref_sort_order_key">sortOrder</string>
+    <string name="pref_relevance">Relevance</string>
+    <string name="pref_object_type">Object Type</string>
+    <string name="pref_favorites">Favorites</string>
+    <string name="sort_order_favorites">favorites</string>
+    <string name="pref_chronologic">Chronologic</string>
+    <string name="pref_achronologic">Achronologic</string>
+    <string name="pref_artist">Artist (a-z)</string>
+    <string name="pref_artistdesc">Artist (z-a)</string>
+    <string name="sort_order_relevance">relevance</string>
+    <string name="sort_order_objecttype">objecttype</string>
+    <string name="sort_order_chronologic">chronologic</string>
+    <string name="sort_order_achronologic">achronologic</string>
+    <string name="sort_order_artist">artist</string>
+    <string name="sort_order_artistdesc">artistdesc</string>
+
+</resources>

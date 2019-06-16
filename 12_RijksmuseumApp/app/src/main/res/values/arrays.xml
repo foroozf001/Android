@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="pref_sort_order">
+        <item>@string/sort_order_achronologic</item>
+        <item>@string/sort_order_chronologic</item>
+        <item>@string/sort_order_artist</item>
+        <item>@string/sort_order_artistdesc</item>
+        <item>@string/sort_order_objecttype</item>
+        <item>@string/sort_order_relevance</item>
+        <item>@string/sort_order_favorites</item>
+    </string-array>
+
+    <string-array name="pref_sort_order_vals">
+        <item>@string/pref_achronologic</item>
+        <item>@string/pref_chronologic</item>
+        <item>@string/pref_artist</item>
+        <item>@string/pref_artistdesc</item>
+        <item>@string/pref_object_type</item>
+        <item>@string/pref_relevance</item>
+        <item>@string/pref_favorites</item>
+    </string-array>
+</resources>

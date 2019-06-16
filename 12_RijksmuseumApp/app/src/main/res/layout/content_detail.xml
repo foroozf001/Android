@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/cardview_shadow_start_color"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.example.a12_rijksmuseumapp.DetailActivity"
+    tools:showIn="@layout/activity_detail">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/artTitle"
+                android:layout_marginLeft="@dimen/layout_margin_left"
+                android:text="@string/title"
+                android:textAlignment="center"
+                android:layout_marginTop="10dp"
+                android:textStyle="bold"
+                android:textSize="25sp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/title"
+                android:textAlignment="center"
+                android:layout_marginLeft="@dimen/layout_margin_left"
+                android:padding="@dimen/padding_layout"
+                android:layout_marginTop="@dimen/layout_margin_top"
+                android:textSize="20sp"
+                android:layout_below="@+id/artTitle"/>
+
+            <ImageView
+                android:layout_width="@dimen/art_thumbnail_height"
+                android:layout_height="@dimen/art_thumbnail_height"
+                android:id="@+id/artCover"
+                android:layout_below="@+id/title"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:scaleType="fitCenter"
+                android:layout_gravity="center"/>
+
+            <com.github.ivbaranov.mfb.MaterialFavoriteButton
+                android:id="@+id/favorite_button"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+                app:mfb_color="black"
+                app:mfb_type="heart"
+                android:background="@color/colorAccent"
+                app:mfb_rotation_duration="400"
+                app:mfb_rotation_angle="360"/>
+
+
+
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>
