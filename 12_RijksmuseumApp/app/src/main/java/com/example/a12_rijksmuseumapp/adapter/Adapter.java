@@ -84,7 +84,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.MyViewHolder> {
                         intent.putExtra("webImage", artList.get(pos).getWebImageUrl());
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         mContext.startActivity(intent);
-                        Toast.makeText(v.getContext(), "You have selected " + clickedDataItem.getTitle(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(v.getContext(), "You have selected " + clickedDataItem.getLongTitle(), Toast.LENGTH_SHORT).show();
                     }
                 }
             });
