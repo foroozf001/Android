@@ -1,12 +1,16 @@
 package com.example.a12_rijksmuseumapp.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.internal.LinkedTreeMap;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
-public class Art {
+public class Art implements Parcelable {
     @SerializedName("links")
     private Object links;
     @SerializedName("id")
@@ -175,4 +179,43 @@ public class Art {
     public void setProductionPlaces(List<String> productionPlaces) {
         this.productionPlaces = productionPlaces;
     }
+
+    public static final Comparator<Art> BY_NAME_ALPHABETICAL = new Comparator<Art>() {
+        @Override
+        public int compare(Art movie, Art t1) {
+            return movie.longTitle.compareTo(t1.longTitle);
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.id);
+        dest.writeString(this.longTitle);
+        dest.writeString(this.getHeaderImageUrl());
+        dest.writeString(this.getWebImageUrl());
+    }
+
+    protected Art(Parcel in) {
+        this.id = in.readString();
+        this.longTitle = in.readString();
+        this.headerImageUrl = in.readString();
+        this.webImageUrl = in .readString();
+    }
+
+    public static final Parcelable.Creator<Art> CREATOR = new Parcelable.Creator<Art>() {
+        @Override
+        public Art createFromParcel(Parcel source) {
+            return new Art(source);
+        }
+
+        @Override
+        public Art[] newArray(int size) {
+            return new Art[size];
+        }
+    };
 }

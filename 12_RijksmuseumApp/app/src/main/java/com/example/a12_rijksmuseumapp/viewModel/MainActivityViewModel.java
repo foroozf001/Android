@@ -12,23 +12,26 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.support.annotation.NonNull;
 
-import com.example.a12_rijksmuseumapp.MainActivity;
+import com.example.a12_rijksmuseumapp.database.AppDatabase;
+import com.example.a12_rijksmuseumapp.database.FavoriteEntry;
 import com.example.a12_rijksmuseumapp.model.Art;
 import com.example.a12_rijksmuseumapp.model.ArtResponse;
 
-import static com.example.a12_rijksmuseumapp.MainActivity.pd;
-import static com.example.a12_rijksmuseumapp.MainActivity.swipeContainer;
-
 public class MainActivityViewModel extends AndroidViewModel {
     private MutableLiveData<List<Art>> artPieces = new MutableLiveData<>();
+    private LiveData<List<FavoriteEntry>> favorites = new MutableLiveData<>();
     private MutableLiveData<String> error = new MutableLiveData<>();
     private Repository repository = new Repository();
 
     public MainActivityViewModel(@NonNull Application application) {
         super(application);
+        AppDatabase database = AppDatabase.getInstance(this.getApplication());
+        favorites = database.favoriteDao().loadAllFavorite();
     }
 
     public LiveData<String> getError() { return error; }
+
+    public LiveData<List<FavoriteEntry>> getFavorites() { return favorites; }
 
     public LiveData<List<Art>> getAllArtPieces() { return artPieces; }
 

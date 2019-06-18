@@ -35,6 +35,7 @@ import retrofit2.Response;
 
 import com.example.a12_rijksmuseumapp.adapter.*;
 import com.example.a12_rijksmuseumapp.data.FavoriteDbHelper;
+import com.example.a12_rijksmuseumapp.database.FavoriteEntry;
 import com.example.a12_rijksmuseumapp.model.*;
 import com.example.a12_rijksmuseumapp.api.*;
 import com.example.a12_rijksmuseumapp.viewModel.MainActivityViewModel;
@@ -146,7 +147,6 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         );
         if (sortOrder.equals(this.getString(R.string.sort_order_favorites))) {
             initViews2();
-            //viewModel.getAllArtPieces(BuildConfig.RIJKSMUSEUM_API_TOKEN, "json", 100, "", sortOrder, true);
         } else {
             viewModel.getAllArtPieces(BuildConfig.RIJKSMUSEUM_API_TOKEN, "json", 100, "", sortOrder, true);
         }
@@ -172,7 +172,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
     }
 
     private void getAllFavorites() {
-        new AsyncTask<Void, Void, Void>() {
+        /*new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... params) {
                 artList.clear();
@@ -184,7 +184,23 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
                 super.onPostExecute(aVoid);
                 adapter.notifyDataSetChanged();
             }
-        }.execute();
+        }.execute();*/
+        viewModel.getFavorites().observe(this, new Observer<List<FavoriteEntry>>() {
+            @Override
+            public void onChanged(@Nullable List<FavoriteEntry> imageEntries) {
+                List<Art> objects = new ArrayList<>();
+                for (FavoriteEntry entry : imageEntries){
+                    Art object = new Art();
+                    object.setId(entry.getArtid());
+                    object.setLongTitle(entry.getTitle());
+                    object.setHeaderImageUrl(entry.getHeaderImg());
+                    object.setWebImageUrl(entry.getWebImg());
+
+                    objects.add(object);
+                }
+                adapter.swapList(objects);
+            }
+        });
     }
 
     @Override

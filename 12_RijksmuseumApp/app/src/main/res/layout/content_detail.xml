@@ -54,7 +54,6 @@
                 android:layout_gravity="center"
                 app:mfb_color="black"
                 app:mfb_type="heart"
-                android:background="@color/colorAccent"
                 app:mfb_rotation_duration="400"
                 app:mfb_rotation_angle="360"/>
 
