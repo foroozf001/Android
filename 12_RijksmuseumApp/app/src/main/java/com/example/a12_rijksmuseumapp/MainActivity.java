@@ -34,7 +34,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import com.example.a12_rijksmuseumapp.adapter.*;
-import com.example.a12_rijksmuseumapp.data.FavoriteDbHelper;
 import com.example.a12_rijksmuseumapp.database.FavoriteEntry;
 import com.example.a12_rijksmuseumapp.model.*;
 import com.example.a12_rijksmuseumapp.api.*;
@@ -46,7 +45,6 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
     private Adapter adapter;
     private List<Art> artList;
     private MainActivityViewModel viewModel;
-    private FavoriteDbHelper favoriteDbHelper;
     public static ProgressDialog pd;
     private AppCompatActivity activity = MainActivity.this;
     public static SwipeRefreshLayout swipeContainer;
@@ -58,8 +56,6 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         setContentView(R.layout.activity_main);
 
         initViews();
-
-        favoriteDbHelper = new FavoriteDbHelper(activity);
 
         viewModel = ViewModelProviders.of(this).get(MainActivityViewModel.class);
 
@@ -167,7 +163,6 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
 
-        favoriteDbHelper = new FavoriteDbHelper(activity);
         getAllFavorites();
     }
 

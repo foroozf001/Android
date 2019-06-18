@@ -18,8 +18,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.example.a12_rijksmuseumapp.data.FavoriteContract;
-import com.example.a12_rijksmuseumapp.data.FavoriteDbHelper;
 import com.example.a12_rijksmuseumapp.database.AppDatabase;
 import com.example.a12_rijksmuseumapp.database.FavoriteEntry;
 import com.example.a12_rijksmuseumapp.model.Art;
@@ -32,7 +30,6 @@ import java.util.List;
 public class DetailActivity extends AppCompatActivity {
     TextView titleOfArtPiece;
     ImageView headerImage, webImage;
-    private FavoriteDbHelper favoriteDbHelper;
     private Art favorite;
     private final AppCompatActivity activity = DetailActivity.this;
     private AppDatabase mDb;
