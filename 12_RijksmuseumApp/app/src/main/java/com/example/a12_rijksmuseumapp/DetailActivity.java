@@ -62,12 +62,12 @@ public class DetailActivity extends AppCompatActivity {
 
             Glide.with(this)
                     .load(headerImgUrl)
-                    .placeholder(R.drawable.ic_refresh_black_24dp)
+                    .placeholder(R.drawable.ic_sync_black_24dp)
                     .into(headerImage);
 
             Glide.with(this)
                     .load(webImgUrl)
-                    .placeholder(R.drawable.ic_refresh_black_24dp)
+                    .placeholder(R.drawable.ic_sync_black_24dp)
                     .into(webImage);
 
             titleOfArtPiece.setText(title);
@@ -100,7 +100,7 @@ public class DetailActivity extends AppCompatActivity {
 
     @SuppressLint("StaticFieldLeak")
     private void checkStatus(final String artName){
-        final MaterialFavoriteButton materialFavoriteButton = (MaterialFavoriteButton) findViewById(R.id.favorite_button);
+        final MaterialFavoriteButton materialFavoriteButton = findViewById(R.id.favorite_button);
         new AsyncTask<Void, Void, Void>(){
             @Override
             protected Void doInBackground(Void... params){

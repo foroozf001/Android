@@ -13,6 +13,8 @@
     <string name="date">Date</string>
     <string name="medium">Physical medium</string>
     <string name="pref_sort_order_label">Sort Order</string>
+    <string name="pref_sort_order_summary">Choose an order to sort</string>
+    <string name="pref_sort_order_dialog">Sort By:</string>
     <string name="pref_sort_order_key">sortOrder</string>
     <string name="pref_relevance">Relevance</string>
     <string name="pref_object_type">Object Type</string>

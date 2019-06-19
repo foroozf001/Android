@@ -167,19 +167,6 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
     }
 
     private void getAllFavorites() {
-        /*new AsyncTask<Void, Void, Void>() {
-            @Override
-            protected Void doInBackground(Void... params) {
-                artList.clear();
-                artList.addAll(favoriteDbHelper.getAllFavorites());
-                return null;
-            }
-            @Override
-            protected void onPostExecute(Void aVoid) {
-                super.onPostExecute(aVoid);
-                adapter.notifyDataSetChanged();
-            }
-        }.execute();*/
         viewModel.getFavorites().observe(this, new Observer<List<FavoriteEntry>>() {
             @Override
             public void onChanged(@Nullable List<FavoriteEntry> imageEntries) {

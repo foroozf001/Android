@@ -42,7 +42,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.MyViewHolder> {
             viewHolder.title.setText(artList.get(i).getLongTitle());
             Glide.with(mContext)
                     .load(url)
-                    .placeholder(R.drawable.ic_refresh_black_24dp)
+                    .placeholder(R.drawable.ic_sync_black_24dp)
                     .into(viewHolder.thumbnail);
         } catch (Exception e) {
             System.out.println(e.getMessage());
