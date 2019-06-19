@@ -54,4 +54,6 @@ dependencies {
 
     //Favorite button
     implementation 'com.github.ivbaranov:materialfavoritebutton:0.1.5'
+
+    implementation 'com.github.chrisbanes:PhotoView:2.1.3'
 }

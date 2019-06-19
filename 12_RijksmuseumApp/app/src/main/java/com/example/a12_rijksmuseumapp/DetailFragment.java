@@ -9,6 +9,7 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -22,6 +23,7 @@ import com.bumptech.glide.Glide;
 import com.example.a12_rijksmuseumapp.database.AppDatabase;
 import com.example.a12_rijksmuseumapp.database.FavoriteEntry;
 import com.example.a12_rijksmuseumapp.viewModel.AppExecutors;
+import com.github.chrisbanes.photoview.PhotoView;
 import com.github.ivbaranov.mfb.MaterialFavoriteButton;
 
 import java.util.ArrayList;
@@ -82,6 +84,23 @@ public class DetailFragment extends Fragment {
                     .load(webImgUrl)
                     .placeholder(R.drawable.ic_sync_black_24dp)
                     .into(webImage);
+
+            webImage.setOnClickListener(new View.OnClickListener(){
+
+                @Override
+                public void onClick(View v) {
+                    AlertDialog.Builder mBuilder = new AlertDialog.Builder(getContext());
+                    View mView = getLayoutInflater().inflate(R.layout.dialog_custom_layout, null);
+                    PhotoView photoView = mView.findViewById(R.id.imagePhotoView);
+                    Glide.with(getContext())
+                            .load(webImgUrl)
+                            .placeholder(R.drawable.ic_sync_black_24dp)
+                            .into(photoView);
+                    mBuilder.setView(mView);
+                    AlertDialog mDialog = mBuilder.create();
+                    mDialog.show();
+                }
+            });
 
             titleOfArtPiece.setText(title);
         } else {
