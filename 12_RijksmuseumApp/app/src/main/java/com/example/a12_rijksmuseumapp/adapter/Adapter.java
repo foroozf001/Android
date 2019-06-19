@@ -2,20 +2,19 @@ package com.example.a12_rijksmuseumapp.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
 import com.example.a12_rijksmuseumapp.DetailActivity;
 import com.example.a12_rijksmuseumapp.R;
 import com.example.a12_rijksmuseumapp.model.Art;
-import com.google.gson.internal.LinkedTreeMap;
 
 import java.util.List;
 
@@ -78,13 +77,15 @@ public class Adapter extends RecyclerView.Adapter<Adapter.MyViewHolder> {
                     if (pos != RecyclerView.NO_POSITION) {
                         Art clickedDataItem = artList.get(pos);
                         Intent intent = new Intent(mContext, DetailActivity.class);
-                        intent.putExtra("id", artList.get(pos).getId());
-                        intent.putExtra("title", artList.get(pos).getLongTitle());
-                        intent.putExtra("headerImage", artList.get(pos).getHeaderImageUrl());
-                        intent.putExtra("webImage", artList.get(pos).getWebImageUrl());
+                        Bundle bundle = new Bundle();
+                        bundle.putString("id", clickedDataItem.getId());
+                        bundle.putString("title", clickedDataItem.getLongTitle());
+                        bundle.putString("headerImage", clickedDataItem.getHeaderImageUrl());
+                        bundle.putString("webImage", clickedDataItem.getWebImageUrl());
+                        intent.putExtras(bundle);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         mContext.startActivity(intent);
-                        Toast.makeText(v.getContext(), "You have selected " + clickedDataItem.getLongTitle(), Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(v.getContext(), "You have selected " + clickedDataItem.getLongTitle(), Toast.LENGTH_SHORT).show();
                     }
                 }
             });

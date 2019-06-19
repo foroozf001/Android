@@ -9,7 +9,7 @@
     tools:context="com.example.a12_rijksmuseumapp.MainActivity"
     tools:showIn="@layout/activity_main"
     android:layout_marginTop="0dp">
-
+    
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
