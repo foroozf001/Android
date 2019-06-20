@@ -4,8 +4,8 @@
     android:layout_height="match_parent">
     <com.github.chrisbanes.photoview.PhotoView
         android:id="@+id/imagePhotoView"
-        android:layout_width="400dp"
-        android:layout_height="400dp"
+        android:layout_width="@dimen/art_dialog_zoom"
+        android:layout_height="@dimen/art_dialog_zoom"
         android:scaleType="centerCrop"/>
 
 </LinearLayout>

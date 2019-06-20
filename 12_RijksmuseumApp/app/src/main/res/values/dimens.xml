@@ -5,7 +5,8 @@
     <dimen name="art_title_padding">10dp</dimen>
     <dimen name="art_title">15dp</dimen>
     <dimen name="art_cover_height">140dp</dimen>
-    <dimen name="art_thumbnail_height">340dp</dimen>
+    <dimen name="art_dialog_zoom">420dp</dimen>
+    <dimen name="art_thumbnail_height">240dp</dimen>
     <dimen name="card_art_radius">0dp</dimen>
     <dimen name="card_margin">5dp</dimen>
     <dimen name="user_rating_padding_bottom">5dp</dimen>

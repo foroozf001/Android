@@ -13,6 +13,8 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -39,6 +41,7 @@ public class MainFragment extends Fragment implements SharedPreferences.OnShared
     private List<Art> artList;
     private MainActivityViewModel viewModel;
     public static final String LOG_TAG = Adapter.class.getName();
+    private String searchQuery;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -77,7 +80,7 @@ public class MainFragment extends Fragment implements SharedPreferences.OnShared
 
     private void initViews() {
         artList = new ArrayList<>();
-
+        searchQuery = "";
         if (getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
             recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 1));
         } else {
@@ -100,6 +103,29 @@ public class MainFragment extends Fragment implements SharedPreferences.OnShared
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_main, menu);
         super.onCreateOptionsMenu(menu, inflater);
+
+        MenuItem myActionMenuItem = menu.findItem(R.id.menu_search);
+        final SearchView searchView = (SearchView) myActionMenuItem.getActionView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                if(TextUtils.isEmpty(s)) {
+                    searchQuery = "";
+                    checkSortOrder();
+                    Toast.makeText(getActivity(), "Search query is empty", Toast.LENGTH_LONG).show();
+                } else {
+                    searchQuery = s;
+                    checkSortOrder();
+                }
+                return true;
+            }
+        });
     }
 
     @Override
@@ -129,7 +155,11 @@ public class MainFragment extends Fragment implements SharedPreferences.OnShared
         if (sortOrder.equals(this.getString(R.string.sort_order_favorites))) {
             initViewsFavorites();
         } else {
-            viewModel.getAllArtPieces(BuildConfig.RIJKSMUSEUM_API_TOKEN, "json", 100, "", sortOrder, true);
+            if (!searchQuery.isEmpty()) {
+                viewModel.getAllArtPieces(BuildConfig.RIJKSMUSEUM_API_TOKEN, "json", 100, searchQuery, sortOrder, true);
+            } else {
+                viewModel.getAllArtPieces(BuildConfig.RIJKSMUSEUM_API_TOKEN, "json", 100, "", sortOrder, true);
+            }
         }
     }
 
