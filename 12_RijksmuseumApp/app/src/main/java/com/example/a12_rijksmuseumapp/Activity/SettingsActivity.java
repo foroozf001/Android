@@ -1,7 +1,9 @@
-package com.example.a12_rijksmuseumapp;
+package com.example.a12_rijksmuseumapp.Activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+
+import com.example.a12_rijksmuseumapp.fragment.SettingsFragment;
 
 public class SettingsActivity extends AppCompatActivity {
 

@@ -1,4 +1,4 @@
-package com.example.a12_rijksmuseumapp;
+package com.example.a12_rijksmuseumapp.fragment;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -6,6 +6,8 @@ import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
+
+import com.example.a12_rijksmuseumapp.R;
 
 public class SettingsFragment extends PreferenceFragment implements Preference.OnPreferenceChangeListener {
     @Override

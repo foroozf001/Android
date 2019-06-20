@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
-import com.example.a12_rijksmuseumapp.DetailActivity;
+import com.example.a12_rijksmuseumapp.Activity.DetailActivity;
 import com.example.a12_rijksmuseumapp.R;
 import com.example.a12_rijksmuseumapp.model.Art;
 

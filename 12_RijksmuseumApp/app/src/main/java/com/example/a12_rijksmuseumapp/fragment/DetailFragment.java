@@ -1,4 +1,4 @@
-package com.example.a12_rijksmuseumapp;
+package com.example.a12_rijksmuseumapp.fragment;
 
 import android.annotation.SuppressLint;
 import android.os.AsyncTask;
@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.a12_rijksmuseumapp.R;
 import com.example.a12_rijksmuseumapp.database.AppDatabase;
 import com.example.a12_rijksmuseumapp.database.FavoriteEntry;
 import com.example.a12_rijksmuseumapp.viewModel.AppExecutors;

@@ -1,60 +1,56 @@
-package com.example.a12_rijksmuseumapp;
+package com.example.a12_rijksmuseumapp.fragment;
 
-import android.app.Activity;
-import android.app.ProgressDialog;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.Context;
-import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
+import android.view.ViewGroup;
 import android.widget.Toast;
+
+import com.example.a12_rijksmuseumapp.Activity.SettingsActivity;
+import com.example.a12_rijksmuseumapp.BuildConfig;
+import com.example.a12_rijksmuseumapp.R;
+import com.example.a12_rijksmuseumapp.adapter.Adapter;
+import com.example.a12_rijksmuseumapp.database.FavoriteEntry;
+import com.example.a12_rijksmuseumapp.model.Art;
+import com.example.a12_rijksmuseumapp.viewModel.MainActivityViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
-import com.example.a12_rijksmuseumapp.adapter.*;
-import com.example.a12_rijksmuseumapp.database.FavoriteEntry;
-import com.example.a12_rijksmuseumapp.model.*;
-import com.example.a12_rijksmuseumapp.api.*;
-import com.example.a12_rijksmuseumapp.viewModel.MainActivityViewModel;
-
-public class MainActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
-
+public class MainFragment extends Fragment implements SharedPreferences.OnSharedPreferenceChangeListener {
     private RecyclerView recyclerView;
     private Adapter adapter;
     private List<Art> artList;
     private MainActivityViewModel viewModel;
-    public static ProgressDialog pd;
-    private AppCompatActivity activity = MainActivity.this;
-    public static SwipeRefreshLayout swipeContainer;
     public static final String LOG_TAG = Adapter.class.getName();
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setHasOptionsMenu(true);
+    }
 
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.activity_main, container, false);
+        recyclerView = view.findViewById(R.id.recycler_view);
         initViews();
 
         viewModel = ViewModelProviders.of(this).get(MainActivityViewModel.class);
@@ -62,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         viewModel.getError().observe(this, new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
-                Toast.makeText(MainActivity.this, s, Toast.LENGTH_LONG)
+                Toast.makeText(getActivity(), s, Toast.LENGTH_LONG)
                         .show();
             }
         });
@@ -76,27 +72,16 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         });
 
         checkSortOrder();
-    }
-
-    public Activity getActivity() {
-        Context context = this;
-        while (context instanceof ContextWrapper) {
-            if (context instanceof Activity) {
-                return (Activity) context;
-            }
-            context = ((ContextWrapper) context).getBaseContext();
-        }
-        return null;
+        return view;
     }
 
     private void initViews() {
-        recyclerView = findViewById(R.id.recycler_view);
         artList = new ArrayList<>();
 
         if (getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-            recyclerView.setLayoutManager(new GridLayoutManager(this, 1));
+            recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 1));
         } else {
-            recyclerView.setLayoutManager(new GridLayoutManager(this, 4));
+            recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 4));
         }
 
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -104,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
 
     private void updateUI() {
         if (adapter == null) {
-            adapter = new Adapter(this, artList);
+            adapter = new Adapter(getContext(), artList);
             recyclerView.setAdapter(adapter);
         } else {
             adapter.swapList(artList);
@@ -112,16 +97,16 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_main, menu);
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_settings:
-                Intent intent = new Intent(this, SettingsActivity.class);
+                Intent intent = new Intent(getActivity(), SettingsActivity.class);
                 startActivity(intent);
                 return true;
             default:
@@ -136,27 +121,26 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
     }
 
     private void checkSortOrder() {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         String sortOrder = preferences.getString(
                 this.getString(R.string.pref_sort_order_key),
                 this.getString(R.string.sort_order_relevance)
         );
         if (sortOrder.equals(this.getString(R.string.sort_order_favorites))) {
-            initViews2();
+            initViewsFavorites();
         } else {
             viewModel.getAllArtPieces(BuildConfig.RIJKSMUSEUM_API_TOKEN, "json", 100, "", sortOrder, true);
         }
     }
 
-    private void initViews2() {
-        recyclerView = findViewById(R.id.recycler_view);
+    private void initViewsFavorites() {
         artList = new ArrayList<>();
-        adapter = new Adapter(this, artList);
+        adapter = new Adapter(getContext(), artList);
 
         if (getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-            recyclerView.setLayoutManager(new GridLayoutManager(this, 1));
+            recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 1));
         } else {
-            recyclerView.setLayoutManager(new GridLayoutManager(this, 4));
+            recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 4));
         }
 
         recyclerView.setItemAnimator(new DefaultItemAnimator());
