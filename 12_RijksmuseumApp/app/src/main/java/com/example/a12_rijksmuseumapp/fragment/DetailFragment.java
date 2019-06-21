@@ -67,8 +67,6 @@ public class DetailFragment extends Fragment {
                 view.findViewById(R.id.collapsing_toolbar);
 
         initCollapsingToolbar();
-        title = getArguments().getString("title");
-        titleOfArtPiece.setText(title);
 
         if(!getArguments().getString("id").isEmpty()) {
             id = getArguments().getString("id");
